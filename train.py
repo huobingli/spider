@@ -5,7 +5,6 @@ import urllib3
 import re
 import requests
 
-
 train_list_url = "https://kyfw.12306.cn/otn/resources/js/query/train_list.js?scriptVersion=1.0"
 station_list_url = "https://kyfw.12306.cn/otn/resources/js/framework/station_name.js?station_version=1.9002"
 
@@ -98,8 +97,8 @@ def test():
             print(match)
 
 if __name__ == "__main__":
-    #getTrain_list()
-    #trainListStartToEnd()
+    # getTrain_list()
+    trainListStartToEnd()
     #getStationInfo()
-    stationList()
+    #stationList()
     #test()
