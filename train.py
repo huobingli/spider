@@ -4,6 +4,7 @@ import urllib
 import urllib3
 import re
 import requests
+import json
 
 train_list_url = "https://kyfw.12306.cn/otn/resources/js/query/train_list.js?scriptVersion=1.0"
 station_list_url = "https://kyfw.12306.cn/otn/resources/js/framework/station_name.js?station_version=1.9002"
@@ -13,6 +14,8 @@ station_raw_file = 'station_list.txt'
 
 train_cooked_file = 'train_list_format.txt'
 station_cooked_file = 'station_list_format.txt'
+
+train_cooked_cooked_file = 'train_cook_format.txt'
 
 
 # 下载所有的车次数据  保存为 train_list.txt文件
@@ -36,19 +39,20 @@ def trainListStartToEnd():
         ss = tt.replace("},{", "}\n{").replace("2018-", "\n").replace("[", "\n").split("\n")
         m_list = list()
         for s in ss:
-            pattern = re.compile(r'\((\w+-\w+)\)')
+            pattern = re.compile(r'[0-9A-Z]+\((\w+-\w+)\)')
             match = pattern.search(s)
             if match:
-                m_list.append(match.group(1))
+                aaa = match.group(0)
+                m_list.append(aaa)
 
-        fp = open(train_cooked_file, 'w+', encoding='utf-8')
-        fp.write("{" + '\n')
+        fp = open(train_cooked_cooked_file, 'w+', encoding='utf-8')
+        # fp.write("{" + '\n')
         for i in range(len(m_list)):
             str1 = str(m_list[i])#.encode("utf-8")
             #str1 = str1.encode("utf-8")
             fp.write(str1)
             fp.write("," + "\n")
-        fp.write("}")
+        # fp.write("}")
         fp.close()
         station_start_end_set = set(m_list)
 
