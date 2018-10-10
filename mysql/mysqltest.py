@@ -8,7 +8,7 @@ import requests
 
 
 station_cooked_file = 'station_list_format.txt'
-train_cooked_file = 'station_list_format.txt'
+train_cooked_file = 'train_cook_format.txt'
 
 # 打开数据库连接
 # password  651295570aA
@@ -98,18 +98,18 @@ def train_insert():
         for line in of:
             # text = of.readline()
             tt = line.decode("utf-8")
-            ss = tt.split("-")
-
-            c0, c1 = ss[0], ss[1]
+            # ss = tt.split("-")
+            ss = tt.replace("(", "-").replace(")", "").replace("\r\n", "").split("-")
+            # c0, c1, c2 = ss[0], ss[1], ss[2]
             c0 = ss[0]
             c1 = ss[1]
+            c2 = ss[2]
+            c3 = ss[0][0]
 
-            nl = [c0, c1]
+            # nl = [c0, c1, c2]
 
             # SQL 插入语句
-            sql = "INSERT INTO trainTable(train_start,\
-                    train_end)\
-                     VALUES ('%s', '%s')" % (c0, c1)
+            sql = "INSERT INTO trainTable(train_no, train_start, train_end, train_type) VALUES ('%s', '%s', '%s', '%s')" % (c0, c1, c2, c3)
             try:
                 # 执行sql语句
                 cursor.execute(sql)
@@ -125,5 +125,4 @@ def train_insert():
 
 if __name__ == "__main__":
     # station_insert()
-
-    # train_insert()
+    train_insert()
