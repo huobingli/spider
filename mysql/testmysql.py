@@ -4,7 +4,8 @@
 import pymysql
 
 import gevent
-import timer
+#import timer
+import datetime
 
 
 class MyPyMysql:
@@ -56,7 +57,7 @@ class MyPyMysql:
         # g_l 任务列表
         # 定义了异步的函数: 这里用到了一个gevent.spawn方法
         max_line = 10000  # 定义每次最大插入行数(max_line=10000,即一次插入10000行)
-        g_l = [gevent.spawn(self.run, i, i + max_line) for i in range(1, 3000001, max_line)]
+        g_l = [gevent.spawn(self.run, i, i + max_line) for i in range(1, 100000, max_line)]
 
         # gevent.joinall 等待所以操作都执行完毕
         gevent.joinall(g_l)
@@ -65,6 +66,10 @@ class MyPyMysql:
 
 
 if __name__ == '__main__':
-    start_time = timer.time()  # 计算程序开始时间
+    #start_time = timer.time()  # 计算程序开始时间
+    startTime = datetime.datetime.now()
+    print('程序开始' + startTime)
     st = MyPyMysql('111.231.251.80', 3306, 'root', '651295570aA', 'station')  # 实例化类，传入必要参数
-    print('程序耗时{:.2f}'.format(timer.time() - start_time))  # 计算程序总耗时
+    endTime = datetime.datetime.now()
+    print('程序结束' + endTime)
+    #print('程序耗时{:.2f}'.format(endTime.time() - startTime.time()))  # 计算程序总耗时
