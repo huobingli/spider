@@ -29,7 +29,7 @@ class MyPyMysql:
                                     charset=self.charset
                                     )
         # 连接mysql后执行的函数
-        self.asynchronous()
+        self.aa()
 
     def run(self, nmin, nmax):
         # 创建游标
@@ -50,10 +50,10 @@ class MyPyMysql:
         if content:
             print('成功插入第{}条数据'.format(nmax - 1))
 
+
         # 提交数据,必须提交，不然数据不会保存
         self.conn.commit()
-
-    def asynchronous(self):
+    def aa(self):
         # g_l 任务列表
         # 定义了异步的函数: 这里用到了一个gevent.spawn方法
         max_line = 10000  # 定义每次最大插入行数(max_line=10000,即一次插入10000行)
@@ -68,8 +68,8 @@ class MyPyMysql:
 if __name__ == '__main__':
     #start_time = timer.time()  # 计算程序开始时间
     startTime = datetime.datetime.now()
-    print('程序开始' + startTime)
+    #print('程序开始' + startTime)
     st = MyPyMysql('111.231.251.80', 3306, 'root', '651295570aA', 'station')  # 实例化类，传入必要参数
     endTime = datetime.datetime.now()
-    print('程序结束' + endTime)
+    #print('程序结束' + endTime)
     #print('程序耗时{:.2f}'.format(endTime.time() - startTime.time()))  # 计算程序总耗时

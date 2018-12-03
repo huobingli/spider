@@ -5,7 +5,7 @@ import pymysql
 import urllib3
 import re
 import requests
-
+import gevent
 
 station_cooked_file = 'station_list_format.txt'
 train_cooked_file = 'train_cook_format.txt'
@@ -57,32 +57,40 @@ def station_insert():
     # 使用cursor()方法获取操作游标
     cursor = db.cursor()
 
+    # SQL 插入语句
+    sql = "INSERT INTO stationTable(station_py,\
+                        station_name, station_code, station_pyqc, station_short_code)\
+                         VALUES (%s, %s, %s, %s, %s)"
+
+    data_list = []
     with open(station_cooked_file, 'rb') as of:
         for line in of:
             # text = of.readline()
             tt = line.decode("utf-8")
             ss = tt.replace("@", "").split("|")
 
-            c0, c1, c2, c3, c4 = ss[0], ss[1], ss[2], ss[3], ss[4]
-            c0 = ss[0]
-            c1 = ss[1]
-            c2 = ss[2]
-            c3 = ss[3]
-            c4 = ss[4]
-            nl = [c0, c1, c2, c3, c4]
+            # c0, c1, c2, c3, c4 = ss[0], ss[1], ss[2], ss[3], ss[4]
+            # c0 = ss[0]
+            # c1 = ss[1]
+            # c2 = ss[2]
+            # c3 = ss[3]
+            # c4 = ss[4]
+            # nl = [c0, c1, c2, c3, c4]
 
-            # SQL 插入语句
-            sql = "INSERT INTO stationTable(station_py,\
-                    station_name, station_code, station_pyqc, station_short_code)\
-                     VALUES ('%s', '%s', '%s', '%s', '%s')" % (c0, c1, c2, c3, c4)
-            try:
-                # 执行sql语句
-                cursor.execute(sql)
-                # 执行sql语句
-                db.commit()
-            except:
-                # 发生错误时回滚
-                db.rollback()
+            result = (ss[0], ss[1], ss[2], ss[3], ss[4])
+            data_list.append(result)
+
+    cursor.executemany(sql, data_list)
+    # db.commit()
+    # db.close()
+    try:
+        # 执行sql语句
+        # cursor.execute(sql)
+        # 执行sql语句
+        db.commit()
+    except:
+        # 发生错误时回滚
+        db.rollback()
 
     # 关闭数据库连接
     db.close()
@@ -124,5 +132,5 @@ def train_insert():
 
 
 if __name__ == "__main__":
-    # station_insert()
-    train_insert()
+    station_insert()
+    #train_insert()
