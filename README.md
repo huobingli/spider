@@ -1,4 +1,4 @@
-# learn splider 
+# learn spider 
 
 ## beautifulsoup
 
