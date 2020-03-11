@@ -1,7 +1,6 @@
 #
 *.jpg
 *.txt
-video/
-video1/
 back/
-.idea/
+*.log
+*.bak
